@@ -1,10 +1,10 @@
 import { PrismaClient } from "@prisma/client";
 
 const globalForPrisma = globalThis as {
-  prisma: PrismaClient | undefined;
+  prisma?: PrismaClient;
 };
 
-export const db =
+export const prisma =
   globalForPrisma.prisma ??
   new PrismaClient({
     log:
@@ -14,5 +14,7 @@ export const db =
   });
 
 if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = db;
+  globalForPrisma.prisma = prisma;
 }
+
+export default prisma;
